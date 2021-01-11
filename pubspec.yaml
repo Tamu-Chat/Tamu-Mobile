@@ -1,0 +1,37 @@
+name: tamu_chat
+description: TAMU private messasing app.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons:
+  rflutter_alert:
+  http:
+  shared_preferences:
+  easy_localization:
+  flutter_svg:
+  stomp:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - asset/locales/
+    - asset/flags/
+    - asset/images/
+  fonts:
+    - family: FontsFree-Net-SFProDisplay
+      fonts:
+        - asset: fonts/FontsFree-Net-SFProDisplay-Regular.ttf
+          weight: 400

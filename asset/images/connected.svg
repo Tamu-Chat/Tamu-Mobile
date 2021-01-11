@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="240" viewBox="0 0 240 240">
+    <defs>
+        <filter id="r4amdbr69a" width="130%" height="130%" x="-15%" y="-15%" filterUnits="objectBoundingBox">
+            <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="10"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.368627451 0 0 0 0 0.831372549 0 0 0 0 0.0392156863 0 0 0 0.57 0"/>
+        </filter>
+        <path id="hhlhcwf40b" d="M99.93 0.002L0 38.608 17.003 66.038 4.428 65.293 57.415 157.27 73.538 157.27 99.93 199.853 126.886 157.27 144.973 157.27 194.176 68.699 182.739 69.053 199.855 42.015z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g fill-rule="nonzero">
+            <g>
+                <g transform="translate(-68 -109) translate(88 129)">
+                    <use fill="#000" filter="url(#r4amdbr69a)" xlink:href="#hhlhcwf40b"/>
+                    <use fill="#5ED40A" xlink:href="#hhlhcwf40b"/>
+                </g>
+                <g fill="#FFF">
+                    <path d="M30.634 17.239h-12.8c-.307 0-.558.24-.558.551V30.73c0 .305.25.555.558.555h12.8c.306 0 .555-.249.555-.555V17.79c-.002-.31-.249-.551-.555-.551z" transform="translate(-68 -109) translate(88 129) translate(76 63)"/>
+                    <path d="M24.235 0C10.853 0 .002 10.848.002 24.234c0 13.385 10.851 24.234 24.233 24.234 13.384 0 24.231-10.849 24.231-24.234C48.466 10.848 37.62 0 24.236 0zm0 44.42c-11.148 0-20.187-9.04-20.187-20.186 0-11.152 9.04-20.189 20.187-20.189 11.15 0 20.184 9.037 20.184 20.189 0 11.147-9.034 20.185-20.184 20.185z" transform="translate(-68 -109) translate(88 129) translate(76 63)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
