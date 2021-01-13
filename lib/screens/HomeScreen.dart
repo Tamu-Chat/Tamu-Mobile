@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tamu_chat/components/AppBar.dart';
 import 'package:tamu_chat/components/BotttomNavigationBar.dart';
 import 'package:tamu_chat/screens/ChatScreen.dart';
@@ -19,6 +18,7 @@ class _HomeState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: customerAppBar("Mesajlar"),
@@ -27,10 +27,7 @@ class _HomeState extends State<HomeScreen> {
             height: MediaQuery.of(context).size.width * 0.03,
           ),
           GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ChatScreen()));
-              },
+              onTap: () {},
               child: Card(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -42,10 +39,10 @@ class _HomeState extends State<HomeScreen> {
                         size: 62,
                       ),
                       title: Text(
-                        'Mustafa',
+                        'Şu anlık rehberden mesaj gönderin',
                         style: TextStyle(fontSize: 24, color: Colors.blueGrey),
                       ),
-                      subtitle: Text('Yeni mesajları görmek için tıkla.'),
+                      subtitle: Text('Üzerinde çalısılıyor..'),
                     ),
                   ],
                 ),

@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 import 'package:tamu_chat/screens/HomeScreen.dart';
+import 'package:tamu_chat/screens/LoginScreen.dart';
 import 'package:tamu_chat/utilities/GlobalVariables.dart';
-import 'package:tamu_chat/utilities/Constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import "package:stomp/stomp.dart";
-import "package:stomp/vm.dart" show connect;
-
 Future<void> main() async {
-  await connect(serverUrl,
-      port: 61613,
-      host: "/",
-      login: "***",
-      passcode: "***",
-      heartbeat: [10000, 30000]).then((StompClient client) {
-    currentClient = client;
-  });
-  currentClient.subscribeString("/mustafa", "/queue/mustafa_fatih",
-      (Map<String, String> headers, String message) {
-    messages.add(new MessageInstance(0, message));
-  });
-  currentClient.subscribeString("/fatih", "/queue/fatih_mustafa",
-      (Map<String, String> headers, String message) {
-    messages.add(new MessageInstance(1, message));
-  });
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  currentUsername = prefs.getString('username');
+  currentUserPhoneNumber = prefs.getString('phonenumber');
+
+  database = openDatabase(
+    join(await getDatabasesPath(), 'tamu_chat.db'),
+    onCreate: (db, version) {
+      return db.execute(
+        "CREATE TABLE messages(withUsername TEXT, body TEXT, fromUser INTEGER)",
+      );
+    },
+    version: 1,
+  );
+
   runApp(
     EasyLocalization(
         supportedLocales: [
@@ -40,11 +39,22 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(fontFamily: 'FontsFree-Net-SFProDisplay'),
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        home: HomeScreen());
+    if (currentUserPhoneNumber == null) {
+      return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(fontFamily: 'FontsFree-Net-SFProDisplay'),
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          home: LoginPage());
+    } else {
+      return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(fontFamily: 'FontsFree-Net-SFProDisplay'),
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          home: HomeScreen());
+    }
   }
 }

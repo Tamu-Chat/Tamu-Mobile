@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  sqflite:
   cupertino_icons:
   rflutter_alert:
   http:

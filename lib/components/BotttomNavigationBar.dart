@@ -13,16 +13,19 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  void _onItemTapped(int index) {
+  Future<void> _onItemTapped(int index) async {
+    if (index == 0) {
+      await fetchUsers();
+    }
     setState(() {
       selectedIndex = index;
 
       if (index == 0) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            context, MaterialPageRoute(builder: (context) => ContactScreen()));
       } else if (index == 1) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ContactScreen()));
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
       } else if (index == 2) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SettingsScreen()));
@@ -39,15 +42,15 @@ class _BottomBarState extends State<BottomBar> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
             icon: Icon(
-              CupertinoIcons.bubble_left,
-            ),
-            label: 'Mesajlar',
-            backgroundColor: Colors.white),
-        BottomNavigationBarItem(
-            icon: Icon(
               CupertinoIcons.person,
             ),
             label: 'Kişilerim',
+            backgroundColor: Colors.white),
+        BottomNavigationBarItem(
+            icon: Icon(
+              CupertinoIcons.bubble_left,
+            ),
+            label: 'Mesajlar',
             backgroundColor: Colors.white),
         BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.settings),

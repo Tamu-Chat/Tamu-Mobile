@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stomp/stomp.dart';
-import 'package:stomp/vm.dart';
 import 'package:tamu_chat/components/AppBar.dart';
+import 'package:tamu_chat/components/BotttomNavigationBar.dart';
+import 'package:tamu_chat/model/Message.dart';
 import 'package:tamu_chat/utilities/GlobalVariables.dart';
-import 'package:tamu_chat/utilities/Constants.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -19,6 +18,8 @@ class _ChatState extends State<ChatScreen> {
 
   void _timer() {
     Future.delayed(Duration(seconds: 1)).then((_) {
+      refreshChats();
+      subscribeChannels(chatWith, currentUsername);
       setState(() {});
       _timer();
     });
@@ -29,83 +30,82 @@ class _ChatState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: customerAppBar("Mustafa"),
-          body: Column(
-            children: [
-              Expanded(
-                  child: ListView.builder(
-                reverse: true,
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  var i = messages.length - (1 + index);
+        backgroundColor: Colors.white,
+        appBar: customerAppBar(chatWith),
+        body: Column(
+          children: [
+            Expanded(
+                child: ListView.builder(
+              reverse: true,
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                var i = messages.length - (1 + index);
 
-                  if (messages[i].type == 0) {
-                    return Container(
+                if (messages[i].type == 0) {
+                  return Row(
+                    children: [
+                      Container(height: 40, width: 200),
+                      Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              shape: BoxShape.rectangle,
+                              color: Colors.black54),
+                          //color: Colors.yellowAccent,
+                          child: Center(
+                            child: Text(
+                              messages[i].body,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )),
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Container(
                         height: 40,
-                        width: 20,
+                        width: 200,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
                             shape: BoxShape.rectangle,
-                            color: Colors.amber),
-                        //color: Colors.yellowAccent,
-                        child: Text(
+                            color: Colors.black87),
+                        child: Center(
+                            child: Text(
                           messages[i].body,
-                        ));
-                  }
-
-                  return Container(
-                      height: 40,
-                      width: 20,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          shape: BoxShape.rectangle,
-                          color: Colors.greenAccent),
-                      child: Text(
-                        messages[i].body,
-                      ));
-                },
-              )),
-              TextField(
-                  controller: _messageBody,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.blueGrey,
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.send),
-                      onPressed: () async {
-                        if (currentClient.isDisconnected) {
-                          print('aa');
-                          await connect("serverUrl",
-                                  port: 61613,
-                                  host: "/",
-                                  login: "***",
-                                  passcode: "***",
-                                  heartbeat: [10000, 30000])
-                              .then((StompClient client) {
-                            currentClient = client;
-                          });
-                          currentClient.subscribeString(
-                              "/fatih", "/queue/fatih_mustafa",
-                              (Map<String, String> headers, String message) {
-                            messages.add(new MessageInstance(1, message));
-                          });
-                          currentClient.subscribeString(
-                              "/mustafa", "/queue/mustafa_fatih",
-                              (Map<String, String> headers, String message) {
-                            messages.add(new MessageInstance(0, message));
-                          });
-                        }
-                        currentClient.sendString(
-                            "/queue/mustafa_fatih", _messageBody.text);
-                        _messageBody.text = '';
-                      },
-                    ),
-                  ))
-            ],
-          ) //bottomNavigationBar: BottomBar(),
-          ),
+                          style: TextStyle(color: Colors.white),
+                        ))),
+                    Container(height: 40, width: 200),
+                  ],
+                );
+              },
+            )),
+            TextField(
+                controller: _messageBody,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.blueGrey,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.send),
+                    onPressed: () {
+                      currentClient.sendString(
+                          "/queue/${currentUsername}_$chatWith",
+                          _messageBody.text);
+                      addMessage(Message(chatWith, _messageBody.text, 0));
+                      _messageBody.text = '';
+                    },
+                  ),
+                ))
+          ],
+        ),
+        bottomNavigationBar: BottomBar(),
+      ),
     );
   }
 }

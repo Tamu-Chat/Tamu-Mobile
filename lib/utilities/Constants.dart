@@ -9,7 +9,8 @@ final mailAccount = "smith@example.org"; // todo add mail address
 const Color mainColor = Color(0xFF5ED40A);
 const Color subColor = Color(0xFFF44336);
 
-final serverUrl = '';
+final serverUrl = '***';
+final baseServerUrl = '***';
 
 final alertStyle = AlertStyle(
   animationType: AnimationType.fromTop,
