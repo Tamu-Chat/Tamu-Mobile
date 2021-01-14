@@ -32,11 +32,12 @@ class _LoginPageState extends State<LoginPage> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 3.5,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  color: Color(0xff6bceff),
+                  /*gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Color(0xff6bceff), Color(0xff6bceff)],
-                  ),
+                    List: [Color(0xff6bceff), Color(0xff6bceff)]*/
+                  //),
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(90))),
               child: Column(
@@ -141,12 +142,13 @@ class _LoginPageState extends State<LoginPage> {
                       height: 45,
                       width: MediaQuery.of(context).size.width / 1.2,
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
+                          color: Color(0xff6bceff),
+                          /*gradient: LinearGradient(
+                            List [
                               Color(0xff6bceff),
                               Color(0xFF00abff),
                             ],
-                          ),
+                          ),*/
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: Center(
                         child: Text(

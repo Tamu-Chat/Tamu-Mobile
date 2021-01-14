@@ -75,7 +75,7 @@ checkConnection() async {
   }
 }
 
-subscribeChannels(chatWith, currentUsername) async {
+connectStomp() async {
   await connect(baseServerUrl,
       port: 61613,
       host: "/",
@@ -84,8 +84,13 @@ subscribeChannels(chatWith, currentUsername) async {
       heartbeat: [10000, 30000]).then((StompClient client) {
     currentClient = client;
   });
+}
+
+subscribeChannels(chatWith, currentUsername) {
   currentClient.subscribeString(
-      "/$currentUsername", "/queue/${chatWith}_$currentUsername",
+      //"/$currentUsername", "/queue/a/b",
+      "/$currentUsername",
+      "/queue/${chatWith}_$currentUsername",
       (Map<String, String> headers, String message) {
     addMessage(Message(chatWith, message, 1));
   });
