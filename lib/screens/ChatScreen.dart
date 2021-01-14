@@ -18,13 +18,6 @@ class _ChatState extends State<ChatScreen> {
 
   void _timer() {
     Future.delayed(Duration(seconds: 1)).then((_) async {
-      if (currentClient == null) {
-        await connectStomp();
-        subscribeChannels(chatWith, currentUsername);
-      } else if (currentClient.isDisconnected) {
-        await connectStomp();
-        subscribeChannels(chatWith, currentUsername);
-      }
       refreshChats();
       setState(() {});
       _timer();
@@ -99,9 +92,9 @@ class _ChatState extends State<ChatScreen> {
                   onPressed: () async {
                     if (currentClient.isDisconnected) {
                       await connectStomp();
-                      subscribeChannels(chatWith, currentUsername);
+                      subscribeChannels();
                     }
-                    currentClient.sendJson("/queue/$currentUsername", {
+                    currentClient.sendJson("/queue/$chatWith", {
                       'from': currentUsername,
                       'message': _messageBody.text
                     });

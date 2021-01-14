@@ -20,6 +20,8 @@ dependencies:
   easy_localization:
   flutter_svg:
   stomp:
+  flutter_background:
+  flutter_local_notifications:
 
 dev_dependencies:
   flutter_test:

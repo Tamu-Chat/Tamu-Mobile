@@ -28,20 +28,6 @@ class _ContactState extends State<ContactScreen> {
             return GestureDetector(
               onTap: () async {
                 chatWith = contactList[index].username;
-                messages.clear();
-                if (currentClient == null) {
-                  await connectStomp();
-                  subscribeChannels(chatWith, currentUsername);
-                } else if (currentClient.isDisconnected) {
-                  await connectStomp();
-                  subscribeChannels(chatWith, currentUsername);
-                } else {
-                  subscribeChannels(chatWith, currentUsername);
-                }
-                currentClient.subscribeJson("/22", "/queue/$currentUsername",
-                    (headers, message) {
-                  print(message['message']);
-                });
                 await refreshChats();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ChatScreen()));

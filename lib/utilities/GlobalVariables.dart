@@ -79,20 +79,17 @@ connectStomp() async {
   await connect(baseServerUrl,
       port: 61613,
       host: "/",
-      login: "***",
-      passcode: "***",
+      login: loginString,
+      passcode: passcodeString,
       heartbeat: [10000, 30000]).then((StompClient client) {
     currentClient = client;
   });
 }
 
-subscribeChannels(chatWith, currentUsername) {
-  currentClient.subscribeString(
-      //"/$currentUsername", "/queue/a/b",
-      "/$currentUsername",
-      "/queue/${chatWith}_$currentUsername",
-      (Map<String, String> headers, String message) {
-    addMessage(Message(chatWith, message, 1));
+subscribeChannels() {
+  currentClient.subscribeJson(currentUsername, "/queue/$currentUsername",
+      (headers, message) {
+    addMessage(Message(message['from'], message['message'], 1));
   });
 }
 

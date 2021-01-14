@@ -2,15 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
-final mailAccount = "smith@example.org"; // todo add mail address
 
 const Color mainColor = Color(0xFF5ED40A);
 const Color subColor = Color(0xFFF44336);
 
-final serverUrl = '****';
-final baseServerUrl = '**';
+final serverUrl = '***';
+final baseServerUrl = '***';
+final loginString = '***';
+final passcodeString = '***';
 
 final alertStyle = AlertStyle(
   animationType: AnimationType.fromTop,
@@ -27,4 +28,10 @@ final alertStyle = AlertStyle(
     color: Colors.white,
   ),
   alertAlignment: Alignment.center,
+);
+
+final androidconfig = FlutterBackgroundAndroidConfig(
+  notificationTitle: "Tamu Chat",
+  notificationText: "Mesaj Servisi",
+  notificationImportance: AndroidNotificationImportance.Default,
 );

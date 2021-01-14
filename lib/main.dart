@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:tamu_chat/screens/HomeScreen.dart';
 import 'package:tamu_chat/screens/LoginScreen.dart';
+import 'package:tamu_chat/utilities/Constants.dart';
 import 'package:tamu_chat/utilities/GlobalVariables.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -22,6 +24,11 @@ Future<void> main() async {
     },
     version: 1,
   );
+  timee();
+
+  await FlutterBackground.hasPermissions;
+  await FlutterBackground.initialize(androidConfig: androidconfig);
+  await FlutterBackground.enableBackgroundExecution();
 
   runApp(
     EasyLocalization(
@@ -36,25 +43,30 @@ Future<void> main() async {
   );
 }
 
+void timee() {
+  Future.delayed(Duration(seconds: 1)).then((_) async {
+    if (currentClient == null || currentClient.isDisconnected) {
+      await connectStomp();
+      subscribeChannels();
+    }
+    timee();
+  });
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Widget screen = HomeScreen();
     if (currentUserPhoneNumber == null) {
-      return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(fontFamily: 'FontsFree-Net-SFProDisplay'),
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          home: LoginPage());
-    } else {
-      return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(fontFamily: 'FontsFree-Net-SFProDisplay'),
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          home: HomeScreen());
+      screen = LoginPage();
     }
+
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'FontsFree-Net-SFProDisplay'),
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        home: screen);
   }
 }
