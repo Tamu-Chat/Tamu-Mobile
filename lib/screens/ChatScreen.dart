@@ -29,7 +29,7 @@ class _ChatState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: customerAppBar(chatWith),
       body: Column(
         children: [
@@ -41,44 +41,88 @@ class _ChatState extends State<ChatScreen> {
               var i = messages.length - (1 + index);
 
               if (messages[i].type == 0) {
-                return Row(
-                  children: [
-                    Container(height: 40, width: 200),
-                    Container(
-                        height: 40,
-                        width: 200,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            shape: BoxShape.rectangle,
-                            color: Colors.black54),
-                        //color: Colors.yellowAccent,
-                        child: Center(
+                return Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
-                            messages[i].body,
-                            style: TextStyle(color: Colors.white),
+                            currentUser.username,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: 'Poppins',
+                              //color: Colors.black87
+                            ),
                           ),
-                        )),
-                  ],
-                );
+                        ),
+                        Material(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(50),
+                            topLeft: Radius.circular(50),
+                            bottomRight: Radius.circular(50),
+                            topRight: Radius.circular(0),
+                          ),
+                          color: Colors.blueGrey,
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: Text(
+                              messages[i].body,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ));
               }
 
-              return Row(
-                children: [
-                  Container(
-                      height: 40,
-                      width: 200,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          shape: BoxShape.rectangle,
-                          color: Colors.black87),
-                      child: Center(
+              return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          chatWith,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: 'Poppins',
+                            //color: Colors.blueGrey
+                          ),
+                        ),
+                      ),
+                      Material(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          topLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(50),
+                          topRight: Radius.circular(50),
+                        ),
+                        color: Colors.white,
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
                           child: Text(
-                        messages[i].body,
-                        style: TextStyle(color: Colors.white),
-                      ))),
-                  Container(height: 40, width: 200),
-                ],
-              );
+                            messages[i].body,
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ));
             },
           )),
           TextField(
@@ -94,13 +138,10 @@ class _ChatState extends State<ChatScreen> {
                       await connectStomp();
                       subscribeChannels();
                     }
-                    currentClient.sendJson("/queue/$chatWith", {
-                      'from': currentUsername,
+                    currentClient.sendJson("/queue/$chatWithUid", {
+                      'from': currentUser.username,
                       'message': _messageBody.text
                     });
-                    /*currentClient.sendString(
-                        "/queue/${currentUsername}_$chatWith",
-                        _messageBody.text);*/
                     addMessage(Message(chatWith, _messageBody.text, 0));
                     _messageBody.text = '';
                   },
@@ -108,7 +149,7 @@ class _ChatState extends State<ChatScreen> {
               ))
         ],
       ),
-      bottomNavigationBar: BottomBar(),
+      //bottomNavigationBar: BottomBar(),
     );
   }
 }

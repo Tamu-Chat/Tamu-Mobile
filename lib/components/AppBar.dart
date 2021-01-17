@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 customerAppBar(String pageName) {
   return AppBar(
-    backgroundColor: Colors.white,
     shadowColor: Colors.transparent,
     elevation: 0,
     automaticallyImplyLeading: false,
@@ -10,7 +9,6 @@ customerAppBar(String pageName) {
       IconButton(
         icon: const Icon(
           Icons.search,
-          color: Colors.blueGrey,
         ),
         tooltip: 'Arama',
         onPressed: () {
@@ -22,10 +20,7 @@ customerAppBar(String pageName) {
       Text(
         pageName,
         style: TextStyle(
-            color: Colors.blueGrey,
-            fontSize: 36,
-            fontWeight: FontWeight.bold,
-            letterSpacing: .5),
+            fontSize: 36, fontWeight: FontWeight.bold, letterSpacing: .5),
       ),
     ]),
   );

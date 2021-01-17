@@ -1,13 +1,24 @@
-class User {
+class UserProfile {
   final String username;
   final String phonenumber;
+  final String uid;
+  final String profilePicture;
+  final String about;
 
-  User({this.username, this.phonenumber});
+  UserProfile(
+      {this.username,
+      this.phonenumber,
+      this.uid,
+      this.profilePicture,
+      this.about});
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
       username: json['username'],
       phonenumber: json['phonenumber'],
+      uid: json['uid'],
+      profilePicture: json['profile_picture'],
+      about: json['about'],
     );
   }
 }

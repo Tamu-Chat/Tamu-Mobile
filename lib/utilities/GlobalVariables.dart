@@ -12,13 +12,14 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
 var isNetworkAvaible = false;
-var currentUsername;
-var currentUserPhoneNumber;
 var selectedLanguagePack = LanguageList(0, "Türkçe", "tr", "TUR");
 var selectedIndex = 1;
+UserProfile currentUser;
 String chatWith;
+String chatWithUid;
 StompClient currentClient;
-List<User> contactList = [];
+List<UserProfile> contactList = [];
+List<String> chatScreenList = [];
 Future<Database> database;
 
 class MessageInstance {
@@ -87,13 +88,13 @@ connectStomp() async {
 }
 
 subscribeChannels() {
-  currentClient.subscribeJson(currentUsername, "/queue/$currentUsername",
+  currentClient.subscribeJson(currentUser.uid, "/queue/${currentUser.uid}",
       (headers, message) {
     addMessage(Message(message['from'], message['message'], 1));
   });
 }
 
-Future<http.Response> loginCall(username, phonenumber) {
+Future<http.Response> loginCall(username, phonenumber, uid) {
   final ioc = new HttpClient();
   ioc.badCertificateCallback =
       (X509Certificate cert, String host, int port) => true;
@@ -104,16 +105,25 @@ Future<http.Response> loginCall(username, phonenumber) {
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(
-        <String, String>{'username': username, 'phonenumber': phonenumber}),
+    body: jsonEncode(<String, String>{
+      'username': username,
+      'phonenumber': phonenumber,
+      'uid': uid,
+      'profile_picture': '-',
+      'about': 'Müsait'
+    }),
   );
 }
 
-Future<void> login(username, phonenumber) async {
-  var response = await loginCall(username, phonenumber);
-  print(response.statusCode);
+Future<void> login(username, phonenumber, uid) async {
+  var response = await loginCall(username, phonenumber, uid);
   if (response.statusCode == 200) {
-    print(jsonDecode(response.body));
+    currentUser = UserProfile(
+        username: username,
+        phonenumber: phonenumber,
+        uid: uid,
+        profilePicture: '-',
+        about: 'Müsait');
   }
 }
 
@@ -127,7 +137,7 @@ fetchUsers() async {
     contactList.clear();
     var data = jsonDecode(response.body);
     for (var x in data) {
-      contactList.add(User.fromJson(x));
+      contactList.add(UserProfile.fromJson(x));
     }
   }
 }

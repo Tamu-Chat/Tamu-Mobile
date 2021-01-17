@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tamu_chat/main.dart';
 import 'package:tamu_chat/screens/HomeScreen.dart';
 import 'package:tamu_chat/utilities/GlobalVariables.dart';
 
@@ -15,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final username = TextEditingController();
   final phonenumber = TextEditingController();
+  final _codeController = TextEditingController();
 
   @override
   void initState() {
@@ -119,16 +122,117 @@ class _LoginPageState extends State<LoginPage> {
                   InkWell(
                     onTap: () async {
                       if (phonenumber.text != "" && username.text != "") {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await prefs.setString('username', username.text);
-                        await prefs.setString('phonenumber', phonenumber.text);
-                        currentUserPhoneNumber = phonenumber.text;
-                        await login(username.text, phonenumber.text);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
+                        FirebaseAuth auth = FirebaseAuth.instance;
+
+                        await auth.verifyPhoneNumber(
+                          phoneNumber: '+9' + phonenumber.text,
+                          timeout: const Duration(seconds: 60),
+                          verificationCompleted:
+                              (PhoneAuthCredential credential) async {
+                            await auth.signInWithCredential(credential);
+                          },
+                          verificationFailed: (FirebaseAuthException e) {
+                            if (e.code == 'invalid-phone-number') {
+                              Alert(
+                                context: context,
+                                //style: alertStyle,
+                                type: AlertType.warning,
+                                title: "Dikkat",
+                                desc: "Girilen numara geçersiz.",
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      "Tamam",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () => Navigator.pop(context),
+                                    color: Color.fromRGBO(0, 179, 134, 1.0),
+                                    radius: BorderRadius.circular(0.0),
+                                  ),
+                                ],
+                              ).show();
+                            } else {
+                              print(e);
+                            }
+                          },
+                          codeSent:
+                              (String verificationId, int resendToken) async {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Dogrulama Kodu"),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        TextField(
+                                          controller: _codeController,
+                                        ),
+                                      ],
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("İptal"),
+                                        textColor: Colors.white,
+                                        color: Colors.blue,
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Onayla"),
+                                        textColor: Colors.white,
+                                        color: Colors.blue,
+                                        onPressed: () async {
+                                          if (_codeController.text != '') {
+                                            String smsCode =
+                                                _codeController.text.trim();
+
+                                            PhoneAuthCredential
+                                                phoneAuthCredential =
+                                                PhoneAuthProvider.credential(
+                                                    verificationId:
+                                                        verificationId,
+                                                    smsCode: smsCode);
+
+                                            UserCredential credentials =
+                                                await auth.signInWithCredential(
+                                                    phoneAuthCredential);
+                                            User tempUser = credentials.user;
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            await prefs.setString(
+                                                'username', username.text);
+                                            await prefs.setString('phonenumber',
+                                                phonenumber.text);
+                                            await prefs.setString(
+                                                'uid', tempUser.uid);
+                                            await prefs.setString(
+                                                'profilePicture', '-');
+                                            await prefs.setString(
+                                                'about', 'Müsait');
+                                            await login(username.text,
+                                                phonenumber.text, tempUser.uid);
+                                            timee();
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomeScreen()));
+                                          }
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
+                          codeAutoRetrievalTimeout: (String verificationId) {},
+                        );
                       } else {
                         Alert(
                                 context: context,

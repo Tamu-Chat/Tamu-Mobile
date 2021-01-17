@@ -16,12 +16,15 @@ dependencies:
   cupertino_icons:
   rflutter_alert:
   http:
+  get:
   shared_preferences:
   easy_localization:
   flutter_svg:
   stomp:
   flutter_background:
   flutter_local_notifications:
+  firebase_core:
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:

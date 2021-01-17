@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:tamu_chat/components/AppBar.dart';
 import 'package:tamu_chat/components/BotttomNavigationBar.dart';
@@ -20,7 +18,6 @@ class _ContactState extends State<ContactScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: customerAppBar("Kişilerim"),
       body: new ListView.builder(
           itemCount: contactList.length,
@@ -28,11 +25,14 @@ class _ContactState extends State<ContactScreen> {
             return GestureDetector(
               onTap: () async {
                 chatWith = contactList[index].username;
+                chatWithUid = contactList[index].uid;
                 await refreshChats();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ChatScreen()));
               },
               child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0)),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[

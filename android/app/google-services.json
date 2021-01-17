@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "744887833872",
+    "project_id": "tamuchat-d0f8b",
+    "storage_bucket": "tamuchat-d0f8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744887833872:android:fffab8b3ae8f357e4bc195",
+        "android_client_info": {
+          "package_name": "com.bola.tamu_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744887833872-bn01vp9r0giri4otpmh5jj1rg7on5cm0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bola.tamu_chat",
+            "certificate_hash": "fd974a539c9198e3a2c1bfcaf6a49cb751bcb6b4"
+          }
+        },
+        {
+          "client_id": "744887833872-leckfmh0hojh1khhevimj7ud1kj90rg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn4UzNowHS2Kl1uCeHVAMBLVzIWEmPTdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744887833872-leckfmh0hojh1khhevimj7ud1kj90rg7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

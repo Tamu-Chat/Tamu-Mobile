@@ -41,21 +41,21 @@ class _BottomBarState extends State<BottomBar> {
       elevation: 12,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.person,
-            ),
-            label: 'Kişilerim',
-            backgroundColor: Colors.white),
+          icon: Icon(
+            CupertinoIcons.person,
+          ),
+          label: 'Kişilerim',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.bubble_left,
-            ),
-            label: 'Mesajlar',
-            backgroundColor: Colors.white),
+          icon: Icon(
+            CupertinoIcons.bubble_left,
+          ),
+          label: 'Mesajlar',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.settings),
-            label: 'Ayarlar',
-            backgroundColor: Colors.white),
+          icon: Icon(CupertinoIcons.settings),
+          label: 'Ayarlar',
+        ),
       ],
       currentIndex: selectedIndex,
       selectedItemColor: Colors.blueGrey[700],
