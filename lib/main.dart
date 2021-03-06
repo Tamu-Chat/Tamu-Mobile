@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background/flutter_background.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:tamu_chat/model/User.dart';
 import 'package:tamu_chat/screens/HomeScreen.dart';
@@ -30,32 +28,9 @@ Future<void> main() async {
         about: about);
   }
 
-  database = openDatabase(
-    join(await getDatabasesPath(), 'tamu_chat.db'),
-    onCreate: (db, version) {
-      return db.execute(
-        "CREATE TABLE messages(withUsername TEXT, body TEXT, fromUser INTEGER)",
-      );
-    },
-    version: 1,
-  );
-
-  await FlutterBackground.hasPermissions;
-  await FlutterBackground.initialize(androidConfig: androidconfig);
-  await FlutterBackground.enableBackgroundExecution();
   await Firebase.initializeApp();
 
-  runApp(
-    EasyLocalization(
-        supportedLocales: [
-          Locale('en', 'UK'),
-          Locale('tr', 'TUR'),
-        ],
-        path: 'asset/locales',
-        fallbackLocale: Locale(
-            selectedLanguagePack.countryCode, selectedLanguagePack.localeCode),
-        child: MyApp()),
-  );
+  runApp(MyApp());
 }
 
 void timee() {
@@ -95,9 +70,6 @@ class MyApp extends StatelessWidget {
             cardTheme: CardTheme(color: Colors.white60)),
         darkTheme: ThemeData.dark().copyWith(primaryColor: Colors.black12),
         themeMode: ThemeMode.light,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
         home: screen);
   }
 }

@@ -12,17 +12,18 @@ dependencies:
   flutter:
     sdk: flutter
 
-  sqflite:
+  #sqflite:IndexedDB
   cupertino_icons:
-  rflutter_alert:
+  rflutter_alert: #not null
   http:
   get:
   shared_preferences:
   easy_localization:
   flutter_svg:
-  stomp:
-  flutter_background:
-  flutter_local_notifications:
+  intl_phone_field: #not null
+  stomp: #not null
+  #flutter_background:
+  #flutter_local_notifications:
   firebase_core:
   firebase_auth:
 

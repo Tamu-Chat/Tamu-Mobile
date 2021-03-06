@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tamu_chat/main.dart';
@@ -91,32 +92,17 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Spacer(),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    height: 45,
-                    padding:
-                        EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(color: Colors.black12, blurRadius: 5)
-                        ]),
-                    child: TextField(
-                      controller: phonenumber,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        icon: Icon(
-                          Icons.phone,
-                          color: Color(0xff6bceff),
-                        ),
-                        hintText: 'Telefon Numarası',
+                  IntlPhoneField(
+                    decoration: InputDecoration(
+                      labelText: 'Telefon Numarası',
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(),
                       ),
                     ),
+                    initialCountryCode: 'TR',
+                    onChanged: (phone) {
+                      print(phone.completeNumber);
+                    },
                   ),
                   Spacer(),
                   InkWell(
@@ -237,8 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                         Alert(
                                 context: context,
                                 title: "Dikkat!",
-                                desc:
-                                    "Kullanıcı Adı ve\nTelefon numarası boş geçilemez.")
+                                desc: "Site Bakım Aşamasındadır.")
                             .show();
                       }
                     },

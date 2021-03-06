@@ -130,7 +130,6 @@ class _SettingsState extends State<SettingsScreen> {
               dropdownColor: Colors.blueGrey[900],
               onChanged: (value) {
                 setState(() {
-                  context.locale = Locale(value.countryCode, value.localeCode);
                   _selectedLanguagePack = value;
                   selectedLanguagePack = value;
                   saveLocalePref();

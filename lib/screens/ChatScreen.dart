@@ -18,7 +18,7 @@ class _ChatState extends State<ChatScreen> {
 
   void _timer() {
     Future.delayed(Duration(seconds: 1)).then((_) async {
-      refreshChats();
+      //refreshChats();
       setState(() {});
       _timer();
     });
@@ -142,7 +142,7 @@ class _ChatState extends State<ChatScreen> {
                       'from': currentUser.username,
                       'message': _messageBody.text
                     });
-                    addMessage(Message(chatWith, _messageBody.text, 0));
+                    //addMessage(Message(chatWith, _messageBody.text, 0));
                     _messageBody.text = '';
                   },
                 ),

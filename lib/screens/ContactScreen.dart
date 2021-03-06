@@ -26,7 +26,7 @@ class _ContactState extends State<ContactScreen> {
               onTap: () async {
                 chatWith = contactList[index].username;
                 chatWithUid = contactList[index].uid;
-                await refreshChats();
+                //await refreshChats();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ChatScreen()));
               },

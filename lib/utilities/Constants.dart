@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background/flutter_background.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 const Color mainColor = Color(0xFF5ED40A);
@@ -28,10 +27,4 @@ final alertStyle = AlertStyle(
     color: Colors.white,
   ),
   alertAlignment: Alignment.center,
-);
-
-final androidconfig = FlutterBackgroundAndroidConfig(
-  notificationTitle: "Tamu Chat",
-  notificationText: "Mesaj Servisi",
-  notificationImportance: AndroidNotificationImportance.Default,
 );

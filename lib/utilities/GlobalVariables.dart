@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:stomp/stomp.dart';
 import 'package:tamu_chat/model/LanguageList.dart';
 import 'package:tamu_chat/model/Message.dart';
@@ -20,7 +19,6 @@ String chatWithUid;
 StompClient currentClient;
 List<UserProfile> contactList = [];
 List<String> chatScreenList = [];
-Future<Database> database;
 
 class MessageInstance {
   int type;
@@ -90,7 +88,7 @@ connectStomp() async {
 subscribeChannels() {
   currentClient.subscribeJson(currentUser.uid, "/queue/${currentUser.uid}",
       (headers, message) {
-    addMessage(Message(message['from'], message['message'], 1));
+    //addMessage(Message(message['from'], message['message'], 1));
   });
 }
 
@@ -138,40 +136,6 @@ fetchUsers() async {
     var data = jsonDecode(response.body);
     for (var x in data) {
       contactList.add(UserProfile.fromJson(x));
-    }
-  }
-}
-
-Future<void> addMessage(Message message) async {
-  final Database db = await database;
-
-  await db.insert(
-    'messages',
-    message.toMap(),
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
-}
-
-getMessages() async {
-  final Database db = await database;
-
-  final List<Map<String, dynamic>> maps = await db.query('messages');
-
-  allMessages = List.generate(maps.length, (i) {
-    return Message(
-      maps[i]['withUsername'],
-      maps[i]['body'],
-      maps[i]['fromUser'],
-    );
-  });
-}
-
-refreshChats() async {
-  await getMessages();
-  messages.clear();
-  for (var item in allMessages) {
-    if (item.withUsername == chatWith) {
-      messages.add(new MessageInstance(item.fromUser, item.body));
     }
   }
 }
